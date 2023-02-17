@@ -33,13 +33,17 @@ func Run() {
 
 	fmt.Println("你的朋友列表：============", self.ID())
 	for i:=0; i< friend.Count(); i++ {
-		fmt.Println("序号：", (i+1), friend[i].City,friend[i].ID(),friend[i].User.ID(),
+		fmt.Println("序号：", (i+1), friend[i].City,
+			"\nID:",friend[i].ID(),
+			"\nID:",friend[i].User.ID(),
 			"\nUserName:",friend[i].User.UserName,
 			"\nNickName:",friend[i].User.NickName,
 			//"\nMemberList:",friend[i].User.MemberList,
 			//"\nSignature:",friend[i].User.Signature,
 			//"\nDisplayName:",friend[i].User.DisplayName,
 			"\nHeadImgUrl:",friend[i].User.HeadImgUrl)
+
+		fmt.Println("-----------------------------------end")
 	}
 	// 阻塞主goroutine, 直到发生异常或者用户主动退出
 	bot.Block()
