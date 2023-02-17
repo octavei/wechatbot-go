@@ -52,4 +52,7 @@ func Handler(msg *openwechat.Message) {
 
 	// 私聊
 	handlers[UserHandler].handle(msg)
+
+	// 将消息设置为已读
+	msg.AsRead()
 }
