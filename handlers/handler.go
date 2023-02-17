@@ -30,6 +30,8 @@ func init() {
 
 // Handler 全局处理入口
 func Handler(msg *openwechat.Message) {
+
+	log.Printf("新消息流向：FromUserName:%s, ToUserName:%s \n",msg.FromUserName, msg.ToUserName)
 	log.Printf("hadler Received msg : %v", msg.Content)
 	// 处理群消息
 	if msg.IsSendByGroup() {
