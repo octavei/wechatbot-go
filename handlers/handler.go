@@ -30,14 +30,16 @@ func init() {
 
 // Handler 全局处理入口
 func Handler(msg *openwechat.Message) {
+	defer func() {
+		// 将消息设置为已读
+		msg.AsRead()
+	}()
 
 	log.Printf("新消息流向：FromUserName:%s, ToUserName:%s \n",msg.FromUserName, msg.ToUserName)
 	log.Printf("hadler Received msg : %v", msg.Content)
 	// 处理群消息
 	if msg.IsSendByGroup() {
 		handlers[GroupHandler].handle(msg)
-		// 将消息设置为已读
-		msg.AsRead()
 		return
 	}
 
@@ -54,7 +56,4 @@ func Handler(msg *openwechat.Message) {
 
 	// 私聊
 	handlers[UserHandler].handle(msg)
-
-	// 将消息设置为已读
-	msg.AsRead()
 }
