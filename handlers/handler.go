@@ -36,6 +36,8 @@ func Handler(msg *openwechat.Message) {
 	// 处理群消息
 	if msg.IsSendByGroup() {
 		handlers[GroupHandler].handle(msg)
+		// 将消息设置为已读
+		msg.AsRead()
 		return
 	}
 
