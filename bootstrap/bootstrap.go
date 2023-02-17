@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"fmt"
 	"github.com/869413421/wechatbot/handlers"
 	"github.com/eatmoreapple/openwechat"
 	"log"
@@ -26,6 +27,13 @@ func Run() {
 			log.Printf("login error: %v \n", err)
 			return
 		}
+	}
+	self, _:=bot.GetCurrentUser()
+	friend, _:=self.Friends()
+
+	fmt.Println("你的朋友列表：============")
+	for i:=0; i< friend.Count(); i++ {
+		fmt.Println("序号：", (i+1), friend[i])
 	}
 	// 阻塞主goroutine, 直到发生异常或者用户主动退出
 	bot.Block()

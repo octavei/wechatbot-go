@@ -19,6 +19,16 @@ func (g *UserMessageHandler) handle(msg *openwechat.Message) error {
 	if msg.IsText() {
 		return g.ReplyText(msg)
 	}
+	if msg.IsTransferAccounts(){
+		// 收到转账
+		fmt.Println("收到转账消息 >>", "Content:",msg.Content, "FileName:",msg.FileName)
+	}else if msg.IsReceiveRedPacket(){
+		// 收到红包消息
+		fmt.Println("收到红包消息 >>", "Content:",msg.Content, "FileName:",msg.FileName)
+	}else if msg.IsSendRedPacket(){
+		// 发出红包消息
+		fmt.Println("发出红包消息 >>", "Content:",msg.Content, "FileName:",msg.FileName)
+	}
 	return nil
 }
 
@@ -33,16 +43,7 @@ func (g *UserMessageHandler) ReplyText(msg *openwechat.Message) error {
 	sender, err := msg.Sender()
 	log.Printf("Received User %v Text Msg : %v", sender.NickName, msg.Content)
 
-	if msg.IsTransferAccounts(){
-		// 收到转账
-		fmt.Println("收到转账消息 >>", "Content:",msg.Content, "FileName:",msg.FileName)
-	}else if msg.IsReceiveRedPacket(){
-		// 收到红包消息
-		fmt.Println("收到红包消息 >>", "Content:",msg.Content, "FileName:",msg.FileName)
-	}else if msg.IsSendRedPacket(){
-		// 发出红包消息
-		fmt.Println("发出红包消息 >>", "Content:",msg.Content, "FileName:",msg.FileName)
-	}
+
 
 	// 向GPT发起请求
 	requestText := strings.TrimSpace(msg.Content)
