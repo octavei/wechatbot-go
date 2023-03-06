@@ -126,8 +126,13 @@ func Completions(who string, msg string) (string, error) {
 
 	reply = strings.ReplaceAll(reply, "机器人神了", "我晕了不知道你在说什么")
 	reply = strings.ReplaceAll(reply, "机器人", "小米粒")
-	reply = strings.ReplaceAll(reply, "\"", " ")
+
+	reply = strings.ReplaceAll(reply, "\"", "")
 
 	fmt.Println("返回输出内容", reply)
+	fmt.Println("返回的内容长度是:", len(reply))
+	if len(reply) == 0 {
+		reply = "小机灵出了点小问题。先休息了，一会回来。"
+	}
 	return reply, nil
 }
