@@ -13,15 +13,14 @@ import (
 const BASEURL = "https://api.openai.com/v1/"
 
 type ChatMsg struct {
-	Role string `json:"role"`
-	ID string `json:"id"`
+	Role            string `json:"role"`
+	ID              string `json:"id"`
 	ParentMessageId string `json:"parentMessageId"`
 
-	ConversationId string `json:"conversationId"`
-	Text string `json:"text"`
-	Detail ChatGPTResponseBody `json:"detail"`
+	ConversationId string              `json:"conversationId"`
+	Text           string              `json:"text"`
+	Detail         ChatGPTResponseBody `json:"detail"`
 }
-
 
 // ChatGPTResponseBody 请求体
 type ChatGPTResponseBody struct {
@@ -48,11 +47,11 @@ type ChatGPTRequestBody struct {
 }
 
 // Completions gtp文本模型回复
-//curl https://api.openai.com/v1/completions
-//-H "Content-Type: application/json"
-//-H "Authorization: Bearer your chatGPT key"
-//-d '{"model": "text-davinci-003", "prompt": "give me good song", "temperature": 0, "max_tokens": 7}'
-func Completions(msg string) (string, error) {
+// curl https://api.openai.com/v1/completions
+// -H "Content-Type: application/json"
+// -H "Authorization: Bearer your chatGPT key"
+// -d '{"model": "text-davinci-003", "prompt": "give me good song", "temperature": 0, "max_tokens": 7}'
+func Completions(who string, msg string) (string, error) {
 	//requestBody := ChatGPTRequestBody{
 	//	Model:            "text-davinci-003",
 	//	Prompt:           msg,
@@ -75,15 +74,16 @@ func Completions(msg string) (string, error) {
 	//var param = url.Values{}
 	//param.Add("qureyT", msg)
 
-
 	//var qureyT = base64.StdEncoding.EncodeToString([]byte(msg))
 	//var qureyT = msg
 	//fmt.Println("发送查询参数", qureyT)
 	var urlP = url.Values{}
-	urlP.Set("qureyT", msg)
-	urlReq := "http://127.0.0.1:13000/wechat?" + urlP.Encode()
+	urlP.Set("who", who)
+	urlP.Set("message", msg)
 
-	req, err := http.NewRequest("POST", urlReq, nil)
+	urlReq := "http://192.168.228.129:8001/ask?" + urlP.Encode()
+
+	req, err := http.NewRequest("GET", urlReq, nil)
 	if err != nil {
 		return "", err
 	}
@@ -124,8 +124,9 @@ func Completions(msg string) (string, error) {
 	//fmt.Println("接收内容中包含的换行符个数：", strings.Count(reply,"\n"))
 	log.Printf("gpt response text: %s \n", reply)
 
-	reply=strings.ReplaceAll(reply, "机器人神了","我晕了不知道你在说什么")
-	reply=strings.ReplaceAll(reply, "机器人","小米粒")
+	reply = strings.ReplaceAll(reply, "机器人神了", "我晕了不知道你在说什么")
+	reply = strings.ReplaceAll(reply, "机器人", "小米粒")
+	reply = strings.ReplaceAll(reply, "\"", " ")
 
 	fmt.Println("返回输出内容", reply)
 	return reply, nil

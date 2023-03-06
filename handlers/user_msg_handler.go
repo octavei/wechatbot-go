@@ -19,15 +19,15 @@ func (g *UserMessageHandler) handle(msg *openwechat.Message) error {
 	if msg.IsText() {
 		return g.ReplyText(msg)
 	}
-	if msg.IsTransferAccounts(){
+	if msg.IsTransferAccounts() {
 		// 收到转账
-		fmt.Println("收到转账消息 >>", "Content:",msg.Content, "FileName:",msg.FileName)
-	}else if msg.IsReceiveRedPacket(){
+		fmt.Println("收到转账消息 >>", "Content:", msg.Content, "FileName:", msg.FileName)
+	} else if msg.IsReceiveRedPacket() {
 		// 收到红包消息
-		fmt.Println("收到红包消息 >>", "Content:",msg.Content, "FileName:",msg.FileName)
-	}else if msg.IsSendRedPacket(){
+		fmt.Println("收到红包消息 >>", "Content:", msg.Content, "FileName:", msg.FileName)
+	} else if msg.IsSendRedPacket() {
 		// 发出红包消息
-		fmt.Println("发出红包消息 >>", "Content:",msg.Content, "FileName:",msg.FileName)
+		fmt.Println("发出红包消息 >>", "Content:", msg.Content, "FileName:", msg.FileName)
 	}
 	return nil
 }
@@ -43,16 +43,17 @@ func (g *UserMessageHandler) ReplyText(msg *openwechat.Message) error {
 	sender, err := msg.Sender()
 	log.Printf("Received User %v Text Msg : %v", sender.NickName, msg.Content)
 
-
-
 	// 向GPT发起请求
 	requestText := strings.TrimSpace(msg.Content)
 	requestText = strings.Trim(msg.Content, "\n")
-	reply, err := gtp.Completions(requestText)
+	//a, err := msg.Sender()
+	//a.NickName
+	reply, err := gtp.Completions(sender.UserName, requestText)
 	if err != nil {
 		log.Printf("gtp request error: %v \n", err)
 		msg.ReplyText("我头晕了不知道你说什么，我一会发现了就去修。")
 		return err
+
 	}
 	if reply == "" {
 		return nil
