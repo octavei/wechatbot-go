@@ -51,7 +51,7 @@ type ChatGPTRequestBody struct {
 // -H "Content-Type: application/json"
 // -H "Authorization: Bearer your chatGPT key"
 // -d '{"model": "text-davinci-003", "prompt": "give me good song", "temperature": 0, "max_tokens": 7}'
-func Completions(who string, msg string) (string, error) {
+func Completions(version int, conv_id string, who string, msg string) (string, error) {
 	//requestBody := ChatGPTRequestBody{
 	//	Model:            "text-davinci-003",
 	//	Prompt:           msg,
@@ -80,8 +80,12 @@ func Completions(who string, msg string) (string, error) {
 	var urlP = url.Values{}
 	urlP.Set("who", who)
 	urlP.Set("message", msg)
+	urlP.Set("conv_id", conv_id)
 
-	urlReq := "http://192.168.228.129:8001/ask?" + urlP.Encode()
+	urlReq := "http://192.168.228.129:8001/ask/v1?" + urlP.Encode()
+	if version == 3 {
+		urlReq = "http://192.168.228.129:8001/ask/v3?" + urlP.Encode()
+	}
 
 	req, err := http.NewRequest("GET", urlReq, nil)
 	if err != nil {
