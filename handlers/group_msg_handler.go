@@ -41,7 +41,7 @@ func (g *GroupMessageHandler) ReplyText(msg *openwechat.Message) error {
 	// 替换掉@文本，然后向GPT发起请求
 	replaceText := "@" + sender.NickName
 	requestText := strings.TrimSpace(strings.ReplaceAll(msg.Content, replaceText, ""))
-	reply, err := gtp.Completions(1, group.UserName, sender.UserName, requestText)
+	reply, err := gtp.Completions(3, group.UserName, sender.UserName, requestText)
 
 	//reply, err := gtp.Completions(msg.Content)
 	if err != nil {
