@@ -38,10 +38,19 @@ func (g *GroupMessageHandler) ReplyText(msg *openwechat.Message) error {
 		return nil
 	}
 
+	// 获取@我的用户
+	groupSender, err := msg.SenderInGroup()
+	if err != nil {
+		log.Printf("get sender in group error :%v \n", err)
+		return err
+	}
+
 	// 替换掉@文本，然后向GPT发起请求
 	replaceText := "@" + sender.NickName
 	requestText := strings.TrimSpace(strings.ReplaceAll(msg.Content, replaceText, ""))
-	reply, err := gtp.Completions(3, group.NickName, sender.NickName, requestText)
+
+	log.Printf("群的昵称是: %s, 用户的昵称是: %s", group.NickName, groupSender.NickName)
+	reply, err := gtp.Completions(3, group.NickName, groupSender.NickName, requestText)
 
 	//reply, err := gtp.Completions(msg.Content)
 	if err != nil {
@@ -51,13 +60,6 @@ func (g *GroupMessageHandler) ReplyText(msg *openwechat.Message) error {
 	}
 	if reply == "" {
 		return nil
-	}
-
-	// 获取@我的用户
-	groupSender, err := msg.SenderInGroup()
-	if err != nil {
-		log.Printf("get sender in group error :%v \n", err)
-		return err
 	}
 
 	// 回复@我的用户
