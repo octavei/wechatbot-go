@@ -31,12 +31,12 @@ func (g *GroupMessageHandler) ReplyText(msg *openwechat.Message) error {
 	// 接收群消息
 	sender, err := msg.Sender()
 	group := openwechat.Group{sender}
-	log.Printf("Received Group %v Text Msg : %v", group.NickName, msg.Content)
 
 	// 不是@的不处理
 	if !msg.IsAt() {
 		return nil
 	}
+	log.Printf("Received Group %v Text Msg : %v", group.NickName, msg.Content)
 
 	// 获取@我的用户
 	groupSender, err := msg.SenderInGroup()
