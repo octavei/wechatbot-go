@@ -48,7 +48,7 @@ func (g *UserMessageHandler) ReplyText(msg *openwechat.Message) error {
 	requestText = strings.Trim(msg.Content, "\n")
 	//a, err := msg.Sender()
 	//a.NickName
-	reply, err := gtp.Completions(3, sender.UserName, sender.UserName, requestText)
+	reply, err := gtp.Completions(3, sender.NickName, sender.NickName, requestText)
 	if err != nil {
 		log.Printf("gtp request error: %v \n", err)
 		msg.ReplyText("我头晕了不知道你说什么，我一会发现了就去修。")
@@ -62,6 +62,7 @@ func (g *UserMessageHandler) ReplyText(msg *openwechat.Message) error {
 	// 回复用户
 	reply = strings.TrimSpace(reply)
 	reply = strings.Trim(reply, "\n")
+	log.Printf("回复@我的用户: %s \n", reply)
 	_, err = msg.ReplyText(reply)
 	if err != nil {
 		log.Printf("response user error: %v \n", err)
