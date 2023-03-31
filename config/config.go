@@ -45,6 +45,9 @@ func LoadConfig() *Configuration {
 		if AutoPass == "true" {
 			config.AutoPass = true
 		}
+
+		// 强制禁用自动通过好似有添加申请
+		config.AutoPass = false
 	})
 	return config
 }

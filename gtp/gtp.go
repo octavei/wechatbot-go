@@ -82,7 +82,7 @@ func Completions(version int, conv_id string, who string, msg string) (string, e
 	urlP.Set("message", msg)
 	urlP.Set("conv_id", conv_id)
 
-	urlReq := "http://192.168.228.129:8001/ask/v1?" + urlP.Encode()
+	urlReq := "http://localhost:8002/ask?" + urlP.Encode()
 	if version == 3 {
 		//urlReq = "http://192.168.228.129:8001/ask/v3?" + urlP.Encode()
 		urlReq = "http://127.0.0.1:8080/ask/v3?" + urlP.Encode()
