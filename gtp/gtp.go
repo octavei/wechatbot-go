@@ -132,7 +132,7 @@ func Completions(version int, conv_id string, who string, msg string) (string, e
 	reply = strings.ReplaceAll(reply, "机器人神了", "我晕了不知道你在说什么")
 	reply = strings.ReplaceAll(reply, "机器人", "小米粒")
 
-	reply = strings.ReplaceAll(reply, "\"", "")
+	//reply = strings.ReplaceAll(reply, "\"", "")
 
 	fmt.Println("返回输出内容", reply)
 	fmt.Println("返回的内容长度是:", len(reply))
